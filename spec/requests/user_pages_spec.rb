@@ -17,4 +17,13 @@ describe "UserPages" do
     it_should_behave_like "all user pages"
   end
 
+  describe "profile page" do
+    let(:user) { FactoryGirl.create(:user) }
+    before { visit user_path(user) }
+    let(:heading)    { user.name }
+    let(:page_title) { user.name }
+    
+    it_should_behave_like "all user pages"
+  end
+
 end
