@@ -55,13 +55,6 @@ class UsersController < ApplicationController
   
   private
 
-    def signed_in_user
-      unless signed_in?
-        store_location
-        redirect_to signin_url, notice: "Please sign in."
-      end
-    end
-
     def has_user
       if signed_in?
         redirect_to root_path
