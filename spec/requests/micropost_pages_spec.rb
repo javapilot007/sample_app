@@ -20,7 +20,7 @@ describe "MicropostPages" do
         
         it { should have_content('error') } 
       end
-    end
+    end #"with invalid information"
 
     describe "with valid information" do
       before { fill_in 'micropost_content', with: "Lorem ipsum" }
@@ -28,8 +28,8 @@ describe "MicropostPages" do
       it "should create a micropost" do
         expect { click_button "Post" }.to change(Micropost, :count).by(1)
       end
-    end
-  end
+    end #"with valid information"
+  end #"micropost creation"
   
   describe "micropost destruction" do
     describe "as correct user" do
@@ -42,7 +42,7 @@ describe "MicropostPages" do
       it "should be able to delete a micropost" do
         expect { click_link "delete" }.to change(Micropost, :count).by(-1)
       end
-    end
+    end #"as correct user"
 
     describe "as another user" do
       let(:other_user) { FactoryGirl.create(:user) }
@@ -52,7 +52,7 @@ describe "MicropostPages" do
       end
 
       it { should_not have_link('delete', href: micropost_path(@micropost)) }
-    end
-  end
+    end #"as another user"
+  end #"micropost destruction"
   
-end
+end #"MicropostPages"

@@ -29,7 +29,7 @@ describe "Authentication" do
         before { click_link "Home" }
         it { should_not have_selector('div.alert.alert-error') }
       end      
-    end
+    end #"with invalid information"
     
     describe "with valid information" do
       let(:user) { FactoryGirl.create(:user) }
@@ -48,8 +48,8 @@ describe "Authentication" do
         before { click_link "Sign out" }
         it { should have_link('Sign in') }
       end
-    end
-  end
+    end #"with valid information"
+  end #"signin"
   
   describe "authorization" do
     describe "for non-signed-in users" do
@@ -75,9 +75,9 @@ describe "Authentication" do
             it "should render the default (profile) page" do
               page.should have_selector('title', text: user.name) 
             end
-          end          
-        end
-      end
+          end #"when signing in again"         
+        end #"after signing in"
+      end #"when attempting to visit a protected page
 
       describe "in the Users controller" do
         describe "visiting the edit page" do
@@ -94,7 +94,17 @@ describe "Authentication" do
           before { visit users_path }
           it { should have_selector('title', text: 'Sign in') }
         end
-      end
+        
+        describe "visiting the following page" do
+          before { visit following_user_path(user) }
+          it { should have_selector('title', text: 'Sign in') }
+        end
+
+        describe "visiting the followers page" do
+          before { visit followers_user_path(user) }
+          it { should have_selector('title', text: 'Sign in') }
+        end        
+      end #"in the Users controller"
       
       describe "in the Microposts controller" do
         describe "submitting to the create action" do
@@ -106,8 +116,8 @@ describe "Authentication" do
           before { delete micropost_path(FactoryGirl.create(:micropost)) }
           specify { response.should redirect_to(signin_path) }
         end
-      end
-    end
+      end #"in the Microposts controller"
+    end #"for non-signed-in users"
     
     describe "as wrong user" do
       let(:user) { FactoryGirl.create(:user) }
@@ -123,7 +133,7 @@ describe "Authentication" do
         before { put user_path(wrong_user) }
         specify { response.should redirect_to(root_path) }
       end
-    end
+    end #"as wrong user"
     
     describe "as non-admin user" do
       let(:user) { FactoryGirl.create(:user) }
@@ -135,7 +145,7 @@ describe "Authentication" do
         before { delete user_path(user) }
         specify { response.should redirect_to(root_path) }        
       end
-    end
+    end #"as non-admin user"
     
     describe "as admin user" do
       let(:admin) { FactoryGirl.create(:admin) }
@@ -146,7 +156,7 @@ describe "Authentication" do
         before { delete user_path(admin) }
         specify { response.should redirect_to(root_path) }
       end
-    end
-  end
+    end #"as admin user"
+  end #"authorization"
   
-end
+end #"Authentication"
